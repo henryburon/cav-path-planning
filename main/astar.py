@@ -1,5 +1,7 @@
 import heapq
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
 
 def astar(map, start, goal, heuristic):
     # Initialize the open set, closed set, g_score, and f_score
@@ -60,18 +62,41 @@ def reconstruct_path(goal, came_from):
 
 
 
+def update(frame, path_lines):
+    plt.clf()
+    plt.imshow(map, cmap='Greys', interpolation='nearest')
+
+    # Plot the path points up to the current frame
+    path_x, path_y = zip(*path[:frame + 1])
+    plt.plot(path_y, path_x, marker='x', color='red', markersize=2)
+    plt.plot(start[1], start[0], marker='o', color='green', markersize=5)
+    plt.plot(goal[1], goal[0], marker='o', color='blue', markersize=5)
+
+    # Plot the lines between path points
+    for i in range(frame):
+        plt.plot([path[i][1], path[i + 1][1]], [path[i][0], path[i + 1][0]], color='red')
+
+    path_lines.set_data(path_y, path_x)
+    return path_lines
+
 def main():
+    global map, start, goal, path
+
     # Create a map
-    map = [[1]*100 for _ in range(100)]
+    map = [[1] * 100 for _ in range(100)]
 
     # Add some obstacles
     for i in range(20, 40):
         for j in range(20, 40):
             map[i][j] = 100
+
+    # Add a row of obstacles
+    for i in range(60, 80):
+        map[i][50] = 100
     
 
     start = (1, 0)
-    goal = (50, 20)
+    goal = (40,30)
 
     # Find the path
     path = astar(map, start, goal, heuristic)
@@ -80,11 +105,18 @@ def main():
         # Print the path
         print(path)
 
-        # Plot the path
+        # Set up the initial plot
+        fig, ax = plt.subplots()
+        path_lines, = ax.plot([], [], marker='x', color='red', markersize=2)
+
+        # Animation
+        ani = FuncAnimation(fig, update, fargs=(path_lines,), frames=len(path), interval=100, repeat=False)
+
         plt.imshow(map, cmap='Greys', interpolation='nearest')
-        for cell in path:
-            plt.text(cell[1], cell[0], 'x', ha='center', va='center', color='red')
+        plt.plot(start[1], start[0], marker='o', color='green', markersize=5)
+        plt.plot(goal[1], goal[0], marker='o', color='blue', markersize=5)
         plt.xticks([]), plt.yticks([])
+
         plt.show()
     else:
         print("No path found.")
