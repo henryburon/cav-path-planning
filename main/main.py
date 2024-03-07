@@ -1,7 +1,7 @@
 from lib.render_maze import *
 
 
-capture_image()
+# capture_image()
 
 prepare_image()
 

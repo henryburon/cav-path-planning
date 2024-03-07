@@ -116,14 +116,15 @@ def convert_to_binary():
 
    _, binary_image = cv2.threshold(processed_image, 127, 255, cv2.THRESH_BINARY)
 
-   # ret,binary_image = cv2.threshold(processed_image,70,255,0)
+   binary_image_1d = (np.any(binary_image == 255, axis=2) * 255).astype(np.uint8)
+   print(binary_image_1d.shape)
 
-   cv2.imwrite('../images/binary/binary_maze.png', binary_image)
 
-   # Optionally, display the images
+   # Save the binary image
+   cv2.imwrite('../images/binary/binary_maze.png', binary_image_1d)
    
    while True:
-      cv2.imshow('Binary Image', binary_image)
+      cv2.imshow('Binary Image', binary_image_1d)
       if cv2.waitKey(0) & 0xFF == ord(' '):
          cv2.destroyAllWindows()
          break
