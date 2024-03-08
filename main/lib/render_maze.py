@@ -4,7 +4,6 @@ import cv2
 
 np.set_printoptions(threshold=np.inf)
 
-
 # Function to capture image from RealSense camera
 def capture_image():
       
@@ -116,18 +115,10 @@ def convert_to_binary():
 
    _, binary_image = cv2.threshold(processed_image, 127, 255, cv2.THRESH_BINARY)
 
+   # Convert to 1D so its compatible with the A* algorithm
    binary_image_1d = (np.any(binary_image == 255, axis=2) * 255).astype(np.uint8)
-   print(binary_image_1d.shape)
 
-
-   # Save the binary image
    cv2.imwrite('../images/binary/binary_maze.png', binary_image_1d)
-   
-   while True:
-      cv2.imshow('Binary Image', binary_image_1d)
-      if cv2.waitKey(0) & 0xFF == ord(' '):
-         cv2.destroyAllWindows()
-         break
 
    return binary_image_1d
 
