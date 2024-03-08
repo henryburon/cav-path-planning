@@ -1,6 +1,7 @@
 import heapq
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+import numpy as np
 
 
 def astar(map, start, goal, heuristic):
@@ -22,7 +23,7 @@ def astar(map, start, goal, heuristic):
         closed_set.add(current)
 
         for neighbor in get_neighbors(current, map):
-            if map[neighbor[0]][neighbor[1]] != 100 and neighbor not in closed_set:
+            if np.any(map[neighbor[0]][neighbor[1]] != 255) and neighbor not in closed_set:
                 tentative_g_score = g_score[current] + 1  # The cost from current to neighbor is 1
 
                 if tentative_g_score < g_score[neighbor]:
@@ -30,22 +31,17 @@ def astar(map, start, goal, heuristic):
                     g_score[neighbor] = tentative_g_score
                     f_score[neighbor] = g_score[neighbor] + heuristic(neighbor, goal)
                     heapq.heappush(open_set, (f_score[neighbor], neighbor))
-
     return None
-
 
 def initialize_came_from():
     # Create a dictionary to store the parent of each cell
     came_from = {}
     return came_from
 
-
-
 def get_neighbors(cell, map):
     # Returns the valid neighbors of a cell in the map
     neighbors = [(cell[0] + dx, cell[1] + dy) for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]]
     return [(x, y) for x, y in neighbors if 0 <= x < len(map) and 0 <= y < len(map[0])]
-
 
 def heuristic(cell, goal):
     # Calculate the manhattan distance between the each cell and the goal
@@ -60,9 +56,7 @@ def reconstruct_path(goal, came_from):
     path.reverse()
     return path
 
-
-
-def update(frame, path_lines):
+def update(frame, path_lines, path, start, goal, map):
     plt.clf()
     plt.imshow(map, cmap='Greys', interpolation='nearest')
 
@@ -78,48 +72,3 @@ def update(frame, path_lines):
 
     path_lines.set_data(path_y, path_x)
     return path_lines
-
-def main():
-    global map, start, goal, path
-
-    # Create a map
-    map = [[1] * 100 for _ in range(100)]
-
-    # Add some obstacles
-    for i in range(20, 40):
-        for j in range(20, 40):
-            map[i][j] = 100
-
-    # Add a row of obstacles
-    for i in range(60, 80):
-        map[i][50] = 100
-    
-
-    start = (1, 0)
-    goal = (40,30)
-
-    # Find the path
-    path = astar(map, start, goal, heuristic)
-
-    if path is not None:
-        # Print the path
-        print(path)
-
-        # Set up the initial plot
-        fig, ax = plt.subplots()
-        path_lines, = ax.plot([], [], marker='x', color='red', markersize=2)
-
-        # Animation
-        ani = FuncAnimation(fig, update, fargs=(path_lines,), frames=len(path), interval=100, repeat=False)
-
-        plt.imshow(map, cmap='Greys', interpolation='nearest')
-        plt.plot(start[1], start[0], marker='o', color='green', markersize=5)
-        plt.plot(goal[1], goal[0], marker='o', color='blue', markersize=5)
-        plt.xticks([]), plt.yticks([])
-
-        plt.show()
-    else:
-        print("No path found.")
-
-if __name__ == "__main__":
-    main()
