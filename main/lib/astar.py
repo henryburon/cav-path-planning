@@ -1,3 +1,8 @@
+"""this module contains the astar algorithm and the visualization of the path
+
+Returns:
+    None
+"""
 import heapq
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -5,6 +10,17 @@ import numpy as np
 
 
 def astar(map, start, goal, heuristic):
+    """This function implements the A* algorithm to find the path from the start to the goal in the map.
+
+    Args:
+        map (): the map as a numpy array
+        start (): the start point
+        goal (): the goal point
+        heuristic (): the manhattan distance between the each cell and the goal
+
+    Returns:
+        None
+    """
     # Initialize the open set, closed set, g_score, and f_score
     open_set = [(heuristic(start, goal), start)]
     closed_set = set()
@@ -34,20 +50,52 @@ def astar(map, start, goal, heuristic):
     return None
 
 def initialize_came_from():
+    """This function initializes the came_from dictionary.
+
+    Returns:
+        came_from: the dictionary to store the parent of each cell
+    """
     # Create a dictionary to store the parent of each cell
     came_from = {}
     return came_from
 
 def get_neighbors(cell, map):
+    """This function returns the valid neighbors of a cell in the map
+
+    Args:
+        cell (): the cells in the map
+        map (): the map as a numpy array
+
+    Returns:
+        neighbors: the valid neighbors of a cell in the map
+    """
     # Returns the valid neighbors of a cell in the map
     neighbors = [(cell[0] + dx, cell[1] + dy) for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]]
     return [(x, y) for x, y in neighbors if 0 <= x < len(map) and 0 <= y < len(map[0])]
 
 def heuristic(cell, goal):
+    """This function calculates the manhattan distance between the each cell and the goal
+
+    Args:
+        cell (): the cells in the map
+        goal (): the goal point
+
+    Returns:
+        distance: the manhattan distance between the each cell and the goal
+    """
     # Calculate the manhattan distance between the each cell and the goal
     return abs(cell[0] - goal[0]) + abs(cell[1] - goal[1])
 
 def reconstruct_path(goal, came_from):
+    """This function reconstructs the path from the goal to the start using the came_from dictionary.
+
+    Args:
+        goal (): the goal point
+        came_from (): the dictionary to store the parent of each cell
+
+    Returns:
+        path: the path from the start to the goal
+    """
     # Reconstruct the path from the goal to the start
     path = [goal]
     while goal in came_from:
@@ -57,6 +105,19 @@ def reconstruct_path(goal, came_from):
     return path
 
 def update(frame, path_lines, path, start, goal, map):
+    """This function updates the visualization of the A* algorithm.
+
+    Args:
+        frame (): the current frame
+        path_lines (): the path lines
+        path (): the path from the start to the goal
+        start (): the start point
+        goal (): the goal point
+        map (): the map as a numpy array
+
+    Returns:
+        path_lines: the path lines
+    """
     plt.clf()
     plt.imshow(map, cmap='Greys', interpolation='nearest')
 
@@ -74,6 +135,17 @@ def update(frame, path_lines, path, start, goal, map):
     return path_lines
 
 def request_start_and_goal(map, xplot, yplot):
+    """This function requests the start and goal points from the user.
+
+    Args:
+        map (): the map as a numpy array
+        xplot (): the width of the plot
+        yplot (): the height of the plot
+
+    Returns:
+        start: the start point
+        goal: the goal point
+    """
     fig = plt.figure(figsize=(xplot, yplot))
     plt.imshow(map, cmap='Greys', interpolation='nearest')
     plt.title("Select the start and goal points (click 2 points)", fontsize=15, fontweight='bold', color='red')
