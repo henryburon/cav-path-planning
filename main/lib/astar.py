@@ -76,6 +76,7 @@ def update(frame, path_lines, path, start, goal, map):
 def request_start_and_goal(map, xplot, yplot):
     fig = plt.figure(figsize=(xplot, yplot))
     plt.imshow(map, cmap='Greys', interpolation='nearest')
+    plt.title("Select the start and goal points (click 2 points)", fontsize=15, fontweight='bold', color='red')
     start, goal = plt.ginput(2, timeout=-1)
     start = (int(start[1]), int(start[0]))
     goal = (int(goal[1]), int(goal[0]))

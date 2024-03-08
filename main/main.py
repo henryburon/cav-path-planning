@@ -12,7 +12,7 @@ def main():
    def update(i):
     if i < len(path):
         point = path[i]
-        plt.plot(point[1], point[0], marker='x', color='red', markersize=2)
+        plt.plot(point[1], point[0], marker='x', color='red', markersize=3, linewidth=2)
 
    # capture_image()
    prepare_image()
@@ -31,7 +31,7 @@ def main():
       plt.plot(start[1], start[0], marker='o', color='green', markersize=5)
       plt.plot(goal[1], goal[0], marker='o', color='blue', markersize=5)
       plt.xticks([]), plt.yticks([])
-      ani = FuncAnimation(fig, update, frames=len(path), repeat=False, interval=35)
+      ani = FuncAnimation(fig, update, frames=len(path), repeat=False, interval=25)
       plt.show()
    else:
       print("No path found.")
