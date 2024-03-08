@@ -72,3 +72,13 @@ def update(frame, path_lines, path, start, goal, map):
 
     path_lines.set_data(path_y, path_x)
     return path_lines
+
+def request_start_and_goal(map, xplot, yplot):
+    fig = plt.figure(figsize=(xplot, yplot))
+    plt.imshow(map, cmap='Greys', interpolation='nearest')
+    start, goal = plt.ginput(2, timeout=-1)
+    start = (int(start[1]), int(start[0]))
+    goal = (int(goal[1]), int(goal[0]))
+    plt.close()
+    return start, goal
+
