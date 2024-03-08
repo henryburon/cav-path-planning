@@ -56,9 +56,20 @@ def capture_image():
          # Convert images to numpy arrays
          color_image = np.asanyarray(color_frame.get_data())
 
-         # Display image stream
-         cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
-         cv2.imshow('RealSense', color_image)
+            # Display image stream
+            cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
+            # Calculate the width of the text box
+            (text_width, text_height), _ = cv2.getTextSize('Use the space bar to take a picture of the maze!', cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
+
+            # Calculate the center of the image
+            x_center = color_image.shape[1] // 2 - text_width // 2
+
+            # Draw a white rectangle as background
+            cv2.rectangle(color_image, (x_center - 10, 20), (x_center + text_width + 10, text_height + 40), (255, 255, 255), -1)
+
+            # Add the text to the image
+            cv2.putText(color_image, 'Use the space bar to take a picture of the maze!', (x_center, text_height + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
+            cv2.imshow('RealSense', color_image)
 
          if cv2.waitKey(1) & 0xFF == 32:
             cv2.imwrite('../images/raw/maze.png', color_image)
