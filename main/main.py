@@ -3,19 +3,31 @@ from lib.astar import *
 from matplotlib.animation import FuncAnimation
 from lib.bfs import *
 
-
+# Main funtion to run the program
 def main():
+   """This function is the main function to run the program.
+   """
 
    global map, start, goal, path, path2
    xplot = 10
    yplot = 10
-
+   #plot the path of the astar algorithm
    def update(i):
-    if i < len(path):
+      """This function updates the visualization of the A* algorithm.
+
+      Args:
+          i (): the current frame
+      """
+      if i < len(path):
         point = path[i]
         plt.plot(point[1], point[0], marker='x', color='red', markersize=3, linewidth=2)
-
+   #plot the path of the bfs algorithm
    def update2(i):
+      """_summary_
+
+      Args:
+          i (): the current frame
+      """
       if i < len(path2):
          point = path2[i]
          plt.plot(point[1], point[0], marker='x', color='green', markersize=3, linewidth=2)
