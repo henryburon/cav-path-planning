@@ -48,11 +48,12 @@ def main():
 
       fig = plt.figure(figsize=(xplot, yplot))
       plt.imshow(map, cmap='Greys', interpolation='nearest')
-      plt.plot(start[1], start[0], marker='o', color='green', markersize=5)
-      plt.plot(goal[1], goal[0], marker='o', color='blue', markersize=5)
-      plt.xticks([]), plt.yticks([])
+      plt.title("A* Algorithm", fontsize=15, fontweight='bold', color='red')
+      plt.plot(start[1], start[0], marker='o', color='red', markersize=7)
+      plt.plot(goal[1], goal[0], marker='o', color='#39FF14', markersize=7)
       ani = FuncAnimation(fig, update, frames=len(path), repeat=False, interval=25)
       ani2 = FuncAnimation(fig, update2, frames=len(path2), repeat=False, interval=25)
+      plt.figtext(0.5, 0.15, f"A* Steps: {len(path)} ", ha="center", fontsize=10, bbox={"facecolor":"white", "alpha":0.5, "pad":5})
       plt.show()
    else:
       print("No path found.")
