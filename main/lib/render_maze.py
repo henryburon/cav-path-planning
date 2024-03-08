@@ -121,7 +121,3 @@ def convert_to_binary():
    cv2.imwrite('../images/binary/binary_maze.png', binary_image_1d)
 
    return binary_image_1d
-
-
-      
-
