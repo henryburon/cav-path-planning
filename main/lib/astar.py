@@ -23,7 +23,7 @@ def astar(map, start, goal, heuristic):
         closed_set.add(current)
 
         for neighbor in get_neighbors(current, map):
-            if np.any(map[neighbor[0]][neighbor[1]] != 255) and neighbor not in closed_set:
+            if map[neighbor[0]][neighbor[1]] != 255 and neighbor not in closed_set:
                 tentative_g_score = g_score[current] + 1  # The cost from current to neighbor is 1
 
                 if tentative_g_score < g_score[neighbor]:

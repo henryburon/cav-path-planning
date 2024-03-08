@@ -9,17 +9,27 @@ def main():
 
    prepare_image()
 
-   convert_to_binary()
+   map = convert_to_binary()
 
    # Load the binary image
-   map = cv2.imread('../images/binary/binary_maze.png')
+   # map = cv2.imread('../images/binary/binary_maze.png')
 
-   # print(map)
+   print(map)
+   print(map.shape)
+   print(type(map))
+   print(len(map[55]))
 
-   # print("Image loaded as binary_maze.png")
+   # display the map with matplotlib
+   map = 255 - map
+   print(map)
+   plt.imshow(map, cmap='Greys', interpolation='nearest')
+   # plt.show()
 
-   start = (50, 60)
-   goal = (10, 5)
+
+
+
+   start = (190, 270)
+   goal = (290, 270)
 
    # Find the path
    path = astar(map, start, goal, heuristic)
@@ -28,14 +38,11 @@ def main():
       # Print the path
       print(path)
 
-      # Set up the initial plot
-      fig, ax = plt.subplots()
-      path_lines, = ax.plot([], [], marker='x', color='red', markersize=2)
+      # Plot the path
+      path_x = [point[1] for point in path]
+      path_y = [point[0] for point in path]
+      plt.plot(path_x, path_y, marker='x', color='red', markersize=2)
 
-      # Animation
-      ani = FuncAnimation(fig, update(path_lines, path, start, goal, map), fargs=(path_lines,), frames=len(path), interval=100, repeat=False)
-
-      plt.imshow(map, cmap='Greys', interpolation='nearest')
       plt.plot(start[1], start[0], marker='o', color='green', markersize=5)
       plt.plot(goal[1], goal[0], marker='o', color='blue', markersize=5)
       plt.xticks([]), plt.yticks([])

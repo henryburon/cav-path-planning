@@ -129,6 +129,8 @@ def convert_to_binary():
          cv2.destroyAllWindows()
          break
 
+   return binary_image_1d
+
 
       
 
