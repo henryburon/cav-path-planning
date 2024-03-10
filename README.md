@@ -2,7 +2,7 @@
 
 Authors: Henry Buron, Rahul Roy
 
-In this project, we implemented the A* and BFS path planning algorithms of a real-world maze. 
+In this project, we implemented the A* and BFS path planning algorithms via a real-world maze. 
 
 See YouTube video here: https://youtu.be/TLJ2Jaa2NNs
 
